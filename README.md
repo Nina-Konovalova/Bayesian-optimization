@@ -6,8 +6,21 @@ This project is based on the idea of using bayesian optimizatian for different o
  - Reproducing the parameters of free energy landscape of translocated polymer using the time distribution of translocation.
 
 # Instructions
+Installation:
 
+        ! pip install GPy gpyopt
+        
+Necessary libraries:
 
+        import GPy
+        import GPyOpt
+        import numpy as np
+        import matplotlib.pyplot
+        import pandas as pd
+        import subprocess
+        import sklearn
+
+If you want Rosenbrock function optimization - the Rosenbrock_function_optimization/Rosenbrock_BO_optimization.ipynb can be launched. 
 
 # Obtained results
 
