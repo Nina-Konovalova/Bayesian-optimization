@@ -11,6 +11,20 @@ This project is based on the idea of using bayesian optimizatian for different o
 
 # Obtained results
 
+## Free energy landscape
+------------------------------------
+### Description of the problem
+In this project it the translocation of polymers will be considered. The chain transfer is described by the Fokker-Plank (FP) formalism of random walk across the free energy landscape.
+
+The main idea was to be able to reconstruct the initial (true) free energy landscape, that was parametrized by a Chebyshev polynomial of n degree (https://en.wikipedia.org/wiki/Chebyshev_polynomials). In addition to true free energy landscape initial dataset of different free energy frofiles is presented. For each profile the corresponding time translocation distribution for successeful and unsuccessful translocation and translocation rate are considered.
+
+Several experiments were conducted for different true free energy landscapes.
+
+\\3 pictures of initials\\
+\\1 picture of the results\\
+
+
+
 ## Rosenbrock function optimization
 ------------------------------------
 Rosenbrock function:
@@ -35,8 +49,5 @@ To use BO to solve this problem, we need to create a GPyOpt object in which we n
 
 **Minimum of the function in point**  (1.01;1.02).
 
-## Free energy landscape
-------------------------------------
-### Description of the problem
 
 
