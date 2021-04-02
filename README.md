@@ -20,7 +20,7 @@ Necessary libraries:
         import subprocess
         import sklearn
 
-If you want Rosenbrock function optimization - the Rosenbrock_function_optimization/Rosenbrock_BO_optimization.ipynb can be launched. 
+If you want Rosenbrock function optimization - the https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Rosenbrock_function_optimization/Rosenbrock_BO_optimization.ipynb can be launched. 
 
 # Obtained results
 
