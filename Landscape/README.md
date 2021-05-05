@@ -27,16 +27,55 @@ Necessary libraries:
 ## Free energy landscape
 ------------------------------------
 ### Description of the problem
-In this project it the translocation of polymers will be considered. The chain transfer is described by the Fokker-Plank (FP) formalism of random walk across the free energy landscape. The main idea was to be able to reconstruct the initial (true) free energy landscape
+In this project it the translocation of polymers will be considered. The chain transfer is described by the Fokker-Plank (FP) formalism of random walk across the free energy landscape. The main idea was to be able to reconstruct the initial (true) free energy landscape. More information about this process can be founded in the file [SCM_project(2)](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/SCM_project%20(2).pdf "SCM_project(2)")
 
 The whole task can be described the following way:
 
-1) Parametrize the free enegry landscapes by a Chebyshev polynomial of n degree (https://en.wikipedia.org/wiki/Chebyshev_polynomials). 
-2) For each known profile find the corresponding time translocation distribution for successeful and unsuccessful translocation and translocation rate are considered using F.f90 fortran programm.
-3) Using the initial dataset and Gaussian Processes - build the model.
-4) 
+1) Parametrize the free enegry landscapes by a [Chebyshev polynomials](https://en.wikipedia.org/wiki/Chebyshev_polynomials) or another kind of polinomials of n degree. 
+2) For each known profile find the corresponding time translocation distribution for successeful and unsuccessful translocation and translocation rate are considered using [fortran programm](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/F.f90).
+3) Chose function for minimization:
+   
+   Here we look for MSE for time distributions of successful and unsuccessful distributions for real and not real distributions, summing that with difference between rates.
 
-## Several experiments were conducted for different true free energy landscapes.
+4) Using the initial dataset and Gaussian Processes - build the model.
+
+       kernel = GPy.kern.RBF(n+1, 1.5, 2)*GPy.kern.Matern52(input_dim = n+1) + GPy.kern.Bias(input_dim=n+1)  #kernel for the model
+       kernel.randomize()
+
+       model = GPyOpt.models.GPModel(optimize_restarts=2, kernel = kernel, exact_feval = True) #GP model without noize and with 2 restarts 
+       myBopt = GPyOpt.methods.BayesianOptimization(f = Fokker_plank_eq,                       # function to optimize       
+                                                    domain = space,                            # box-constraints of the problem
+                                                    model_type='InputWarpedGP',
+                                                    model = model,
+                                                    X = X_parametr_pol, 
+                                                    normalize_Y = True,
+                                                    verbosity = True,
+                                                    acquisition_type ='MPI')
+
+
+5) Conduct the optimization.
+
+### Description of files and how to use them
+
+1) The main file - [Landscape_bayesian.ipynb](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/Landscape_bayesian.ipynb). You have to clone repo and run this file
+2) There are different possibilities for approximation of free energy landscapes:
+ - with [Chebyshev polynomials](https://en.wikipedia.org/wiki/Chebyshev_polynomials): [cheb_approx.py](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/cheb_approx.py);
+ - with [Hermit polinomials](https://en.wikipedia.org/wiki/Hermite_polynomials): [hermit_approx.py](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/hermit_approx.py);
+ - with [Laguerre polynomials](https://en.wikipedia.org/wiki/Laguerre_polynomials): [laguerre_approx.py](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/laguerre_approx.py);
+ - with [Legendre polynomials](https://en.wikipedia.org/wiki/Legendre_polynomials): [legendre_approx.py](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/legendre_approx.py).
+3) Also there is **.ipunb** file for data generation, but there are already uploaded some data files:
+
+ a) Data for experiments:
+ 
+   - [experimental_data.csv](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/experimental_data.csv);
+    
+ b) Data for initial dataset:
+ 
+   - [initial_data.csv](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/initial_data.csv);
+   - [initial_data.csv(1)](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/initial_data(1).csv);
+   - [initial_data.csv(2)](https://github.com/Nina-Konovalova/Bayesian-optimization/blob/main/Landscape/initial_data(2).csv).
+  
+### Several experiments were conducted for different true free energy landscapes.
 ------------------------------------------------
 
 #### Experiment 0
